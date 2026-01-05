@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gardien des Phares - Support & Confidentialité</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="robots" content="noindex"> <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
               cream: { 50: '#FDFBF7', 100: '#F9F7F1', 200: '#EBE5CE', 900: '#D6CDB0' },
-              marine: { 100: '#C8D9E6', 300: '#8FB8CA', 500: '#547C96', 800: '#2C3E50', 900: '#1A2C38' },
+              marine: { 100: '#C8D9E6', 300: '#8FB8CA', 400: '#6B8EAD', 500: '#547C96', 600: '#405E75', 700: '#2E4558', 800: '#1A2C38', 900: '#0F1A23', 950: '#080E13' },
               lighthouse: { red: '#D94E41', hover: '#B93A2E' }
             }
           }
@@ -22,7 +22,7 @@
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
         body {
-            background-color: #1A2C38;
+            background-color: #0F1A23;
             color: #F9F7F1;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin: 0;
@@ -36,7 +36,7 @@
             background: linear-gradient(
                 to bottom,
                 transparent 50%,
-                rgba(0, 0, 0, 0.05) 51%
+                rgba(0, 0, 0, 0.1) 51%
             );
             background-size: 100% 4px;
             pointer-events: none;
@@ -47,42 +47,44 @@
             position: fixed;
             inset: 0;
             pointer-events: none;
-            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%);
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%);
             z-index: 10;
         }
 
         .wave-pattern {
             position: fixed;
             inset: 0;
-            opacity: 0.05;
+            opacity: 0.03;
             pointer-events: none;
+            z-index: 0;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(2deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
         }
-        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-float { animation: float 5s ease-in-out infinite; }
 
         .terminal-font {
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Effet de bordure "rivetée" comme les plaques de blindage du jeu */
+        /* Effet de bordure "rivetée" blindée */
         .plate-border {
-            border: 4px solid #EBE5CE;
+            border: 2px solid #2E4558;
             box-shadow: 
-                inset 0 0 0 2px rgba(0,0,0,0.1),
-                0 20px 50px rgba(0,0,0,0.5);
+                0 0 0 1px rgba(0,0,0,0.5),
+                0 20px 60px rgba(0,0,0,0.7);
         }
 
         .rivet {
             position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #D6CDB0;
+            width: 6px;
+            height: 6px;
+            background: #405E75;
             border-radius: 50%;
-            box-shadow: inset -1px -1px 2px rgba(0,0,0,0.5);
+            box-shadow: inset 1px 1px 2px rgba(255,255,255,0.1), inset -1px -1px 2px rgba(0,0,0,0.5);
+            z-index: 30;
         }
     </style>
 </head>
@@ -90,7 +92,6 @@
     <div class="scanlines"></div>
     <div class="vignette"></div>
     
-    <!-- Background Waves SVG -->
     <svg class="wave-pattern" xmlns="http://www.w3.org/2000/svg">
         <pattern id="bg-waves" x="0" y="0" width="100" height="40" patternUnits="userSpaceOnUse">
             <path d="M0 20 Q 25 5 50 20 T 100 20" fill="none" stroke="#8FB8CA" stroke-width="1.5" />
@@ -98,26 +99,23 @@
         <rect width="100%" height="100%" fill="url(#bg-waves)" />
     </svg>
 
-    <main class="relative z-20 w-full max-w-2xl bg-marine-800 plate-border rounded-3xl overflow-hidden">
-        <!-- Rivets décoratifs aux coins -->
+    <main class="relative z-20 w-full max-w-2xl bg-marine-800 plate-border rounded-xl overflow-hidden shadow-2xl">
         <div class="rivet top-3 left-3"></div>
         <div class="rivet top-3 right-3"></div>
         <div class="rivet bottom-3 left-3"></div>
         <div class="rivet bottom-3 right-3"></div>
 
-        <!-- Header -->
-        <header class="bg-marine-900/80 p-8 border-b-2 border-marine-700 text-center relative">
+        <header class="bg-marine-900/90 p-8 border-b border-marine-700 text-center relative backdrop-blur-sm">
             <div class="flex justify-center mb-6">
-                <div class="bg-marine-800 p-4 rounded-full border-2 border-lighthouse-red shadow-[0_0_20px_rgba(217,78,65,0.3)] animate-float">
-                    <!-- SVG ENTIER DE L'ANCRE (LUCIDE OFFICIAL) -->
+                <div class="bg-marine-800 p-4 rounded-full border border-marine-600 shadow-[0_0_30px_rgba(217,78,65,0.15)] animate-float">
                     <svg 
                         xmlns="http://www.w3.org/2000/svg" 
-                        width="48" 
-                        height="48" 
+                        width="40" 
+                        height="40" 
                         viewBox="0 0 24 24" 
                         fill="none" 
                         stroke="#D94E41" 
-                        stroke-width="2" 
+                        stroke-width="1.5" 
                         stroke-linecap="round" 
                         stroke-linejoin="round"
                     >
@@ -127,84 +125,80 @@
                     </svg>
                 </div>
             </div>
-            <h1 class="text-3xl md:text-4xl font-bold uppercase tracking-[0.25em] mb-2">
-                Gardien <span class="text-marine-300">des</span> Phares
+            <h1 class="text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] mb-3 text-cream-100">
+                Gardien <span class="text-marine-400">des</span> Phares
             </h1>
-            <div class="flex items-center justify-center gap-4">
-                <div class="h-[2px] w-12 bg-marine-600"></div>
+            <div class="flex items-center justify-center gap-3 opacity-70">
+                <div class="h-[1px] w-8 bg-marine-500"></div>
                 <span class="terminal-font text-[10px] text-lighthouse-red font-bold tracking-widest uppercase">Archive GPH-29 // Transmission</span>
-                <div class="h-[2px] w-12 bg-marine-600"></div>
+                <div class="h-[1px] w-8 bg-marine-500"></div>
             </div>
         </header>
 
-        <!-- Content Area -->
-        <div class="p-6 md:p-10 space-y-12">
+        <div class="p-6 md:p-10 space-y-10 bg-marine-800/95">
             
-            <!-- Intro Quote -->
-            <section class="text-center">
-                <p class="text-lg text-marine-100 italic font-serif opacity-80">
+            <section class="text-center px-4">
+                <p class="text-base text-marine-300 italic font-serif leading-relaxed">
                     "La mer ne pardonne pas le silence. Gardien, nous assurons la liaison entre la côte et vos phares."
                 </p>
             </section>
 
-            <!-- Support Section -->
-            <section class="bg-marine-950/50 p-6 rounded-2xl border border-marine-600 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <section class="bg-marine-950/40 p-6 rounded-lg border border-marine-700/50 relative overflow-hidden group hover:border-marine-600 transition-colors">
+                <div class="absolute top-3 right-3 opacity-10">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 </div>
-                <h2 class="text-lg font-bold uppercase tracking-widest text-yellow-400 mb-4 flex items-center gap-3">
-                    <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-cream-200 mb-4 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-yellow-500/80 rounded-full animate-pulse"></span>
                     Assistance Technique
                 </h2>
                 <div class="space-y-4 text-marine-100 text-sm leading-relaxed">
-                    <p>Un incident avec vos cristaux, une anomalie dans le chenal ou une archive corrompue ? Notre station de réception traite vos rapports prioritairement.</p>
-                    <div class="bg-marine-900 border-2 border-lighthouse-red/20 p-5 rounded-xl flex flex-col items-center gap-3 transition-all hover:border-lighthouse-red/50">
-                        <span class="terminal-font text-[9px] uppercase font-bold text-marine-400 tracking-tighter">Fréquence de contact (Email) :</span>
-                        <a href="mailto:pierzenstudio@gmail.com" class="text-xl md:text-2xl font-bold text-cream-50 hover:text-lighthouse-red transition-colors tracking-tight">
+                    <p class="opacity-90">Un incident avec vos cristaux, une anomalie dans le chenal ou une archive corrompue ? Notre station de réception traite vos rapports prioritairement.</p>
+                    <div class="mt-4 pt-4 border-t border-marine-700/30 flex flex-col md:flex-row md:items-center justify-between gap-2">
+                        <span class="terminal-font text-[10px] uppercase font-bold text-marine-500 tracking-wider">Fréquence (Email) :</span>
+                        <a href="mailto:pierzenstudio@gmail.com" class="text-lg font-bold text-cream-50 hover:text-lighthouse-red transition-colors tracking-tight font-mono">
                             pierzenstudio@gmail.com
                         </a>
                     </div>
                 </div>
             </section>
 
-            <!-- Privacy Section -->
-            <section class="space-y-6">
-                <h2 class="text-lg font-bold uppercase tracking-widest text-marine-300 flex items-center gap-3 border-b-2 border-marine-700 pb-3">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <section class="space-y-8">
+                <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 flex items-center gap-2 border-b border-marine-700 pb-2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     Protocole de Confidentialité
                 </h2>
                 
                 <div class="grid gap-6">
-                    <div class="flex gap-5 items-start">
-                        <div class="bg-marine-900 p-2 rounded-lg text-lighthouse-red border border-marine-600 mt-1">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <div class="flex gap-4 items-start">
+                        <div class="mt-1 text-marine-500 shrink-0">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-cream-50 uppercase tracking-wider mb-1">Système AdMob (Google)</h3>
+                            <h3 class="text-xs font-bold text-cream-100 uppercase tracking-wider mb-1">Système AdMob (Google)</h3>
                             <p class="text-xs text-marine-300 leading-relaxed text-justify">
-                                Utilisé pour maintenir la station opérationnelle via la diffusion d'annonces. Google peut traiter des identifiants techniques anonymes pour calibrer le contenu.
+                                Utilisé pour maintenir la station opérationnelle via la diffusion d'annonces. Google peut traiter des identifiants techniques anonymes pour calibrer le contenu publicitaire.
                             </p>
                         </div>
                     </div>
 
-                    <div class="flex gap-5 items-start">
-                        <div class="bg-marine-900 p-2 rounded-lg text-lighthouse-red border border-marine-600 mt-1">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <div class="flex gap-4 items-start">
+                        <div class="mt-1 text-marine-500 shrink-0">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-cream-50 uppercase tracking-wider mb-1">Sécurisation des Transactions</h3>
+                            <h3 class="text-xs font-bold text-cream-100 uppercase tracking-wider mb-1">Sécurisation des Transactions</h3>
                             <p class="text-xs text-marine-300 leading-relaxed text-justify">
-                                Tous les transferts de cristaux passent par le protocole sécurisé Google Play Billing. PierZen Studio n'a jamais accès à vos données bancaires ou d'identité civile.
+                                Tous les transferts de cristaux passent par le protocole sécurisé <strong>Google Play Billing</strong>. PierZen Studio n'a jamais accès à vos données bancaires ou d'identité civile.
                             </p>
                         </div>
                     </div>
 
-                    <div class="flex gap-5 items-start">
-                        <div class="bg-marine-900 p-2 rounded-lg text-green-500 border border-marine-600 mt-1">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22v-7m0-4V2m0 9l4 4m-4-4l-4 4"/></svg>
+                    <div class="flex gap-4 items-start">
+                        <div class="mt-1 text-marine-500 shrink-0">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22v-7m0-4V2m0 9l4 4m-4-4l-4 4"/></svg>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-cream-50 uppercase tracking-wider mb-1">Zéro Vente de Données</h3>
+                            <h3 class="text-xs font-bold text-cream-100 uppercase tracking-wider mb-1">Zéro Vente de Données</h3>
                             <p class="text-xs text-marine-300 leading-relaxed text-justify font-bold">
                                 Aucun journal de bord, aucune coordonnée et aucune donnée Gardien n'est vendue ou transmise à des tiers. La lumière de nos phares reste pure.
                             </p>
@@ -212,12 +206,30 @@
                     </div>
                 </div>
             </section>
+
+            <section class="mt-8 pt-6 border-t border-marine-700/50 bg-marine-900/30 -mx-6 px-6 pb-2">
+                <h3 class="terminal-font text-[10px] font-bold text-marine-500 uppercase tracking-widest mb-3">
+                    Mentions Légales & Droits (Conformité RGPD)
+                </h3>
+                <div class="text-[10px] text-marine-400 space-y-3 font-mono leading-relaxed text-justify">
+                    <p>
+                        <strong class="text-marine-300">Responsable du traitement :</strong> Les données sont gérées par PierZen Studio. Conformément au Règlement Général sur la Protection des Données (RGPD), tout utilisateur peut solliciter l'accès, la rectification ou la suppression de ses données de jeu en contactant le support technique.
+                    </p>
+                    <p>
+                        <strong class="text-marine-300">Partenaires :</strong> Ce service utilise des identifiants d'appareil pour personnaliser le contenu et les annonces, fournir des fonctionnalités de médias sociaux et analyser le trafic. 
+                        <br class="mb-1">
+                        <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" class="text-lighthouse-red hover:text-cream-50 underline decoration-1 underline-offset-2 transition-colors">
+                            > Lire comment Google utilise vos données (Obligatoire)
+                        </a>
+                    </p>
+                </div>
+            </section>
+
         </div>
 
-        <!-- Footer -->
-        <footer class="p-6 bg-marine-900 border-t-2 border-marine-700 text-center relative">
-            <p class="terminal-font text-[9px] uppercase tracking-[0.4em] text-marine-500 font-bold">
-                PierZen Studio &copy; 2026 // Système de Transmission Sécurisé
+        <footer class="p-4 bg-marine-950 border-t border-marine-800 text-center relative z-20">
+            <p class="terminal-font text-[9px] uppercase tracking-[0.2em] text-marine-600 font-bold">
+                PierZen Studio &copy; 2026 // Finistère, France
             </p>
         </footer>
     </main>
