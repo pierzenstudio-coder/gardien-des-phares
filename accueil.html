@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gardien des Phares — Port d’Attache</title>
+  <meta name="robots" content="index,follow">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: { 50: '#FDFBF7', 100: '#F9F7F1', 200: '#EBE5CE', 900: '#D6CDB0' },
+            marine: { 100: '#C8D9E6', 300: '#8FB8CA', 400: '#6B8EAD', 500: '#547C96', 600: '#405E75', 700: '#2E4558', 800: '#1A2C38', 900: '#0F1A23', 950: '#080E13' },
+            lighthouse: { red: '#D94E41', hover: '#B93A2E' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+    body {
+      background-color: #0F1A23;
+      color: #F9F7F1;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 51%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%);
+      z-index: 10;
+    }
+
+    .wave-pattern {
+      position: fixed;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .terminal-font { font-family: 'JetBrains Mono', monospace; }
+
+    .plate-border {
+      border: 2px solid #2E4558;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.7);
+    }
+
+    .rivet {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #405E75;
+      border-radius: 50%;
+      box-shadow: inset 1px 1px 2px rgba(255,255,255,0.1), inset -1px -1px 2px rgba(0,0,0,0.5);
+      z-index: 30;
+    }
+
+    section[id] { scroll-margin-top: 130px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .pop-in { animation: popIn .35s ease-out both; }
+      @keyframes popIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8">
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <svg class="wave-pattern" xmlns="http://www.w3.org/2000/svg">
+    <pattern id="bg-waves" x="0" y="0" width="100" height="40" patternUnits="userSpaceOnUse">
+      <path d="M0 20 Q 25 5 50 20 T 100 20" fill="none" stroke="#8FB8CA" stroke-width="1.5" />
+    </pattern>
+    <rect width="100%" height="100%" fill="url(#bg-waves)" />
+  </svg>
+
+  <main class="relative z-20 w-full max-w-5xl bg-marine-800 plate-border rounded-xl overflow-hidden shadow-2xl">
+    <div class="rivet top-3 left-3"></div><div class="rivet top-3 right-3"></div>
+    <div class="rivet bottom-3 left-3"></div><div class="rivet bottom-3 right-3"></div>
+
+    <header class="bg-marine-900/90 p-8 border-b border-marine-700 text-center relative backdrop-blur-sm">
+      <h1 class="text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] mb-2 text-cream-100">
+        Gardien <span class="text-marine-400">des</span> Phares
+      </h1>
+      <div class="flex flex-col items-center justify-center gap-1 opacity-70">
+        <span class="terminal-font text-[11px] md:text-xs text-lighthouse-red font-bold tracking-widest uppercase">
+          PierZen Studio // Port d’Attache
+        </span>
+        <span class="terminal-font text-[10px] md:text-[11px] text-marine-400 uppercase">
+          Mise à jour : 13/01/2026
+        </span>
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
+        <a href="#hero" class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">Accueil</a>
+        <a href="#pitch" class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">Pitch</a>
+        <a href="#piliers" class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">Piliers</a>
+        <a href="#aide" class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">Aide</a>
+        <a href="#legal" class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">Légal</a>
+      </div>
+    </header>
+
+    <div class="p-6 md:p-10 space-y-10 bg-marine-800/95">
+
+      <section id="hero" class="pop-in space-y-5">
+        <p class="text-base md:text-lg text-marine-100 leading-relaxed italic border-l-2 border-lighthouse-red pl-4">
+          ⚓ BIENVENUE AU PORT D'ATTACHE : GARDIEN DES PHARES
+        </p>
+
+        <div class="grid gap-4 md:grid-cols-2 items-start">
+          <div class="space-y-3">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-cream-100 tracking-tight">
+              Veillez sur l’Iroise. Défendez nos côtes.
+            </h2>
+            <p class="text-sm md:text-base text-marine-200 leading-relaxed text-justify">
+              Le destin du Finistère est entre vos mains. Plongez dans un jeu de stratégie maritime unique où l’Histoire réelle rencontre les légendes de la cité d’Ys. Érigez vos phares, affrontez la Flotte Fantôme et restaurez la lumière sur l’océan.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-1">
+              <a href="https://play.google.com/store/apps/details?id=com.gardienphares.game"
+                 target="_blank" rel="noopener"
+                 class="terminal-font text-sm md:text-base font-bold uppercase tracking-wider px-4 py-3 rounded border border-lighthouse-red bg-lighthouse-red/15 text-cream-50 hover:bg-lighthouse-red/25 transition-colors">
+                📥 Télécharger sur Google Play
+              </a>
+
+              <a href="mailto:pierzenstudio@gmail.com"
+                 class="terminal-font text-sm md:text-base font-bold uppercase tracking-wider px-4 py-3 rounded border border-marine-700 bg-marine-950/30 text-cream-50 hover:border-marine-600 hover:bg-marine-950/55 transition-colors">
+                ✉️ Contacter le studio
+              </a>
+            </div>
+
+            <p class="terminal-font text-[11px] md:text-xs text-marine-400 uppercase tracking-widest">
+              Un seul cap : l’installation sur Android (Google Play).
+            </p>
+          </div>
+
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <div class="terminal-font text-[11px] md:text-xs uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2 mb-3">
+              Journal de quart
+            </div>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-2 ml-1 font-mono">
+              <li><span class="text-cream-100 font-bold">Mission :</span> stopper la Flotte Fantôme avant la terre.</li>
+              <li><span class="text-cream-100 font-bold">Ressources :</span> Or / Cristaux d’Ys / Bouteilles.</li>
+              <li><span class="text-cream-100 font-bold">Endgame :</span> Tour d’Ys (bonus permanent).</li>
+              <li><span class="text-cream-100 font-bold">Partage :</span> cartes via QR, sans serveur.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="pitch" class="pop-in space-y-4">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+          2. Le Pitch : l’Appel du Large
+        </h2>
+        <p class="text-sm md:text-base text-marine-200 leading-relaxed text-justify">
+          La brume s’épaissit sur la pointe bretonne. Des profondeurs abyssales émergent des navires que l’on croyait disparus : la Flotte Fantôme. Pirates spectraux, cuirassés de fer et créatures légendaires menacent de plonger nos rivages dans l’oubli.
+        </p>
+        <p class="text-sm md:text-base text-marine-200 leading-relaxed text-justify">
+          En tant que Gardien, vous seul possédez le savoir pour réactiver le réseau des phares. Utilisez l’or des pirates pour bâtir vos défenses et les mystérieux Cristaux d’Ys pour éveiller des puissances millénaires.
+        </p>
+      </section>
+
+      <section id="piliers" class="pop-in space-y-4">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+          3. Les Piliers du Jeu
+        </h2>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-base md:text-lg font-bold text-cream-100">🔦 Un Patrimoine Réel</h3>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+              Débloquez et restaurez les 25 phares emblématiques du Finistère. Chaque victoire ouvre des archives historiques (hauteur, portée, année, anecdotes).
+            </p>
+          </div>
+
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-base md:text-lg font-bold text-cream-100">⚔️ Stratégie de Défense Pointue</h3>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+              Un arsenal de 10 structures tactiques : Phares de Garde (cadence), Bouées Courant (contrôle), Sous-marins Nucléaires (frappes globales), Œil de Neptune + Couronne d’Ys (menaces légendaires).
+            </p>
+          </div>
+
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-base md:text-lg font-bold text-cream-100">💎 Une Progression Éternelle</h3>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+              L’Atelier d’Ys débloque des technologies permanentes. La Tour d’Ys, infinie, augmente définitivement la puissance de toutes vos tours tous les 5 niveaux.
+            </p>
+          </div>
+
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-base md:text-lg font-bold text-cream-100">🎨 Créativité et Partage</h3>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+              Éditeur de cartes intégré : sculptez vos îles, tracez vos routes. Partage via QR Codes, sans compte et sans serveur.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="aide" class="pop-in space-y-4">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+          4. Centre d’Aide et Ressources
+        </h2>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-base md:text-lg font-bold text-cream-100 uppercase">FAQ rapide</h3>
+
+            <div class="space-y-3 mt-3">
+              <details class="rounded border border-marine-700 bg-marine-950/25 p-3">
+                <summary class="cursor-pointer text-sm md:text-base font-bold text-cream-100">Comment gagner des Cristaux d'Ys ?</summary>
+                <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+                  Vous en recevez après chaque vague victorieuse. Plus la difficulté est haute, plus le gain est important.
+                </p>
+              </details>
+
+              <details class="rounded border border-marine-700 bg-marine-950/25 p-3">
+                <summary class="cursor-pointer text-sm md:text-base font-bold text-cream-100">À quoi servent les Bouteilles à la Mer ?</summary>
+                <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+                  Elles sont lâchées par les goélettes ennemies. Elles contiennent des fragments d'archives nécessaires pour débloquer les phares réels.
+                </p>
+              </details>
+
+              <details class="rounded border border-marine-700 bg-marine-950/25 p-3">
+                <summary class="cursor-pointer text-sm md:text-base font-bold text-cream-100">Le jeu est-il gratuit ?</summary>
+                <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+                  Oui, jouable gratuitement. Un achat unique permet de retirer les publicités et de soutenir le studio.
+                </p>
+              </details>
+            </div>
+          </div>
+
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60 space-y-4">
+            <div>
+              <h3 class="text-base md:text-lg font-bold text-cream-100 uppercase">Guide du Gardien</h3>
+              <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+                Besoin d'approfondir vos tactiques ? Consultez le manuel officiel.
+              </p>
+              <a href="https://pierzenstudio-coder.github.io/gardien-des-phares/aide.html"
+                 class="inline-block mt-3 terminal-font text-sm md:text-base font-bold uppercase tracking-wider px-4 py-3 rounded border border-marine-700 bg-marine-950/30 text-cream-50 hover:border-marine-600 hover:bg-marine-950/55 transition-colors">
+                📜 Manuel de Service Officiel
+              </a>
+            </div>
+
+            <div class="border-t border-marine-700 pt-4">
+              <h3 class="text-base md:text-lg font-bold text-cream-100 uppercase">Assistance technique</h3>
+              <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+                Un problème avec une sauvegarde ou un achat ? Contactez l'amirauté :
+              </p>
+              <a href="mailto:pierzenstudio@gmail.com"
+                 class="inline-block mt-3 text-lg md:text-xl font-bold text-cream-50 hover:text-lighthouse-red transition-colors tracking-tight font-mono">
+                pierzenstudio@gmail.com
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="legal" class="pop-in space-y-4">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+          5. Engagement & Transparence (Légal)
+        </h2>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-base md:text-lg font-bold text-cream-100">Politique de Confidentialité</h3>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+              Nous respectons votre vie privée. Gardien des Phares ne collecte aucune donnée nominative. Votre progression est stockée localement ou synchronisée via les services officiels de Google Play Games.
+            </p>
+            <a href="https://pierzenstudio-coder.github.io/gardien-des-phares/"
+               class="inline-block mt-3 text-lighthouse-red underline hover:text-cream-50 transition-colors">
+              👉 Consulter la politique de confidentialité complète
+            </a>
+          </div>
+
+          <div class="bg-marine-900/50 p-5 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-base md:text-lg font-bold text-cream-100">Avertissement épilepsie</h3>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
+              Le jeu utilise des effets de lumière pulsée. Prudence recommandée aux personnes sujettes à l'épilepsie ; faites une pause en cas de fatigue visuelle.
+            </p>
+            <p class="terminal-font text-[11px] md:text-xs text-marine-400 uppercase tracking-widest mt-3">
+              Note : aucune CGU publiée pour le moment.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="pop-in mt-8 pt-6 border-t border-marine-600 flex flex-col items-center">
+        <span class="terminal-font text-[11px] md:text-xs uppercase font-bold text-marine-500 tracking-wider mb-2">PierZen Studio</span>
+        <p class="text-sm md:text-base text-marine-200 text-center">
+          Créateurs d'expériences numériques poétiques et tactiques.<br>
+          Finistère, Bretagne.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 mt-4">
+          <a href="https://pierzenstudio-coder.github.io/gardien-des-phares/aide.html"
+             class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-4 py-2 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">
+            Page d’aide
+          </a>
+          <a href="https://pierzenstudio-coder.github.io/gardien-des-phares/"
+             class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-4 py-2 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">
+            Politique de confidentialité
+          </a>
+          <a href="#hero"
+             class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-4 py-2 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">
+            ↑ Retour en haut
+          </a>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="p-4 bg-marine-950 border-t border-marine-800 text-center relative z-20">
+      <p class="terminal-font text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-marine-600 font-bold">
+        PierZen Studio &copy; 2024-2025 // Tous droits réservés
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
