@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gardien des Phares - Politique de Confidentialité</title>
     <meta name="robots" content="noindex">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -19,6 +20,7 @@
         }
       }
     </script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
@@ -74,10 +76,11 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen flex items-center justify-center p-4 md:p-8">
     <div class="scanlines"></div>
     <div class="vignette"></div>
-    
+
     <svg class="wave-pattern" xmlns="http://www.w3.org/2000/svg">
         <pattern id="bg-waves" x="0" y="0" width="100" height="40" patternUnits="userSpaceOnUse">
             <path d="M0 20 Q 25 5 50 20 T 100 20" fill="none" stroke="#8FB8CA" stroke-width="1.5" />
@@ -97,10 +100,19 @@
                 <span class="terminal-font text-[10px] text-lighthouse-red font-bold tracking-widest uppercase">PierZen Studio // Politique de Confidentialité</span>
                 <span class="terminal-font text-[9px] text-marine-400 uppercase">Mise à jour : 05/01/2026</span>
             </div>
+
+            <!-- Lien vers Accueil -->
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+                <a href="https://pierzenstudio-coder.github.io/gardien-des-phares/accueil.html"
+                   class="terminal-font text-[10px] md:text-[11px] uppercase font-bold tracking-wider px-4 py-2 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lighthouse-red/70"
+                   aria-label="Retour à la page d’accueil">
+                    ← Accueil
+                </a>
+            </div>
         </header>
 
         <div class="p-6 md:p-10 space-y-8 bg-marine-800/95">
-            
+
             <section>
                 <p class="text-sm text-marine-100 leading-relaxed italic border-l-2 border-lighthouse-red pl-4">
                     La présente politique a pour but d'informer les Gardiens (utilisateurs) sur la manière dont leurs informations sont traitées, suite à l'intégration des fonctionnalités de progression, d'achats intégrés et de publicité.
@@ -130,8 +142,10 @@
                     <p class="text-xs text-marine-300 text-justify">
                         Nos partenaires (Google AdMob) utilisent des identifiants anonymes pour diffuser des annonces pertinentes.
                         <br>
-                        <a href="https://policies.google.com/technologies/partner-sites" target="_blank" class="text-lighthouse-red underline hover:text-cream-50 transition-colors mt-1 inline-block">
-                            > Voir les règles de Google
+                        <a href="https://policies.google.com/technologies/partner-sites"
+                           target="_blank" rel="noopener"
+                           class="text-lighthouse-red underline hover:text-cream-50 transition-colors mt-1 inline-block">
+                            &gt; Voir les règles de Google
                         </a>
                     </p>
                 </div>
@@ -158,7 +172,13 @@
                     4. Sauvegarde & Progression
                 </h2>
                 <div class="flex gap-4 items-start">
-                    <div class="text-marine-500 mt-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></div>
+                    <div class="text-marine-500 mt-1">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                        </svg>
+                    </div>
                     <div class="text-xs text-marine-300 space-y-2">
                         <p><strong class="text-cream-100">Restauration Automatique :</strong> Les achats permanents (No-Ads, Technologies) sont liés à votre compte Google Play et restaurés automatiquement en cas de réinstallation.</p>
                         <p><strong class="text-cream-100">Synchronisation :</strong> Votre avancée (Niveaux, Cristaux d'Ys) est liée à votre identifiant Google Play.</p>
@@ -177,8 +197,18 @@
 
             <section class="mt-8 pt-6 border-t border-marine-600 flex flex-col items-center">
                 <span class="terminal-font text-[10px] uppercase font-bold text-marine-500 tracking-wider mb-2">Canal de communication</span>
-                <a href="mailto:pierzenstudio@gmail.com" class="text-xl font-bold text-cream-50 hover:text-lighthouse-red transition-colors tracking-tight font-mono">
+
+                <!-- Correction: pas de markdown dans le HTML -->
+                <a href="mailto:pierzenstudio@gmail.com"
+                   class="text-xl font-bold text-cream-50 hover:text-lighthouse-red transition-colors tracking-tight font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lighthouse-red/70 rounded">
                     pierzenstudio@gmail.com
+                </a>
+
+                <!-- Lien Accueil aussi en bas -->
+                <a href="https://pierzenstudio-coder.github.io/gardien-des-phares/accueil.html"
+                   class="mt-4 terminal-font text-[10px] md:text-[11px] uppercase font-bold tracking-wider px-4 py-2 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lighthouse-red/70"
+                   aria-label="Retour à la page d’accueil">
+                    ← Accueil
                 </a>
             </section>
 
@@ -192,3 +222,4 @@
     </main>
 </body>
 </html>
+
