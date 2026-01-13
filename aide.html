@@ -74,6 +74,18 @@
       box-shadow: inset 1px 1px 2px rgba(255,255,255,0.1), inset -1px -1px 2px rgba(0,0,0,0.5);
       z-index: 30;
     }
+
+    /* Pour que les ancres ne passent pas sous le header */
+    section[id] { scroll-margin-top: 190px; }
+
+    /* Micro animation: léger "pop" à l'apparition (réduit si motion réduite) */
+    @media (prefers-reduced-motion: no-preference) {
+      .pop-in { animation: popIn .35s ease-out both; }
+      @keyframes popIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    }
   </style>
 </head>
 
@@ -92,85 +104,86 @@
     <div class="rivet top-3 left-3"></div><div class="rivet top-3 right-3"></div>
     <div class="rivet bottom-3 left-3"></div><div class="rivet bottom-3 right-3"></div>
 
-    <!-- ENTÊTE: identique à la Politique (mêmes classes, même structure), seule la ligne/texte change -->
+    <!-- ENTÊTE: identique à la Politique (mêmes classes, même structure), date changée -->
     <header class="bg-marine-900/90 p-8 border-b border-marine-700 text-center relative backdrop-blur-sm">
       <h1 class="text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] mb-2 text-cream-100">
         Gardien <span class="text-marine-400">des</span> Phares
       </h1>
       <div class="flex flex-col items-center justify-center gap-1 opacity-70">
-        <span class="terminal-font text-[10px] text-lighthouse-red font-bold tracking-widest uppercase">PierZen Studio // Manuel de Service</span>
-        <span class="terminal-font text-[9px] text-marine-400 uppercase">Mise à jour : 13/01/2026</span>
+        <span class="terminal-font text-[11px] md:text-xs text-lighthouse-red font-bold tracking-widest uppercase">PierZen Studio // Manuel de Service</span>
+        <span class="terminal-font text-[10px] md:text-[11px] text-marine-400 uppercase">Mise à jour : 13/01/2026</span>
       </div>
 
-      <!-- Sommaire en boutons dans le header (A) -->
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
-        <a href="#s1" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">1</a>
-        <a href="#s2" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">2</a>
-        <a href="#s3" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">3</a>
-        <a href="#s4" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">4</a>
-        <a href="#s5" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">5</a>
-        <a href="#s6" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">6</a>
-        <a href="#s7" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">7</a>
-        <a href="#s8" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">8</a>
-        <a href="#s9" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">9</a>
-        <a href="#s10" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">10</a>
-        <a href="#s11" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">11</a>
-        <a href="#s12" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">12</a>
-        <a href="#s13" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">13</a>
-        <a href="#s14" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">14</a>
-        <a href="#s15" class="terminal-font text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 transition-colors">15</a>
+      <!-- Sommaire en boutons + rendu vivant (hover, focus) -->
+      <div id="toc" class="mt-6 flex flex-wrap items-center justify-center gap-2">
+        <!-- Les classes "inactive" servent de base, le JS appliquera un style "actif" -->
+        <a href="#s1"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">1</a>
+        <a href="#s2"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">2</a>
+        <a href="#s3"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">3</a>
+        <a href="#s4"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">4</a>
+        <a href="#s5"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">5</a>
+        <a href="#s6"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">6</a>
+        <a href="#s7"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">7</a>
+        <a href="#s8"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">8</a>
+        <a href="#s9"  class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">9</a>
+        <a href="#s10" class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">10</a>
+        <a href="#s11" class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">11</a>
+        <a href="#s12" class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">12</a>
+        <a href="#s13" class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">13</a>
+        <a href="#s14" class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">14</a>
+        <a href="#s15" class="toc-link terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-3 py-1 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">15</a>
       </div>
     </header>
 
     <div class="p-6 md:p-10 space-y-8 bg-marine-800/95">
 
-      <section>
-        <p class="text-sm text-marine-100 leading-relaxed italic border-l-2 border-lighthouse-red pl-4">
+      <section class="pop-in">
+        <p class="text-base md:text-lg text-marine-100 leading-relaxed italic border-l-2 border-lighthouse-red pl-4">
           Ce document centralise les procédures de garde, l’économie, l’arsenal, les menaces, la progression et le dépannage. Rapport officiel : protocole 2.0.3.
         </p>
       </section>
 
       <!-- 1 -->
-      <section id="s1" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s1" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           1. Introduction à la Mission
         </h2>
-        <p class="text-xs text-marine-300 text-justify">
+        <p class="text-sm md:text-base text-marine-200 leading-relaxed text-justify">
           Vous incarnez le Gardien, l'ultime rempart face à la Flotte Fantôme. Votre objectif est simple mais vital : ériger des phares et des défenses maritimes pour empêcher les navires spectraux de franchir les passes et d'atteindre la terre ferme.
         </p>
       </section>
 
       <!-- 2 -->
-      <section id="s2" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s2" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           2. Le Système d'Économie Tripartite
         </h2>
 
-        <p class="text-xs text-marine-200">
+        <p class="text-sm md:text-base text-marine-200">
           Le jeu repose sur trois ressources distinctes qu'il est crucial de différencier :
         </p>
 
         <div class="grid gap-4 md:grid-cols-3">
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700">
-            <h3 class="text-xs font-bold text-cream-100 uppercase mb-2">🪙 L'Or (Monnaie Tactique)</h3>
-            <ul class="list-disc list-inside text-xs text-marine-300 space-y-1 ml-1">
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase mb-2">🪙 L'Or (Monnaie Tactique)</h3>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-1">
               <li><strong class="text-cream-100">Source :</strong> Gagné en coulant des navires ennemis pendant une vague.</li>
               <li><strong class="text-cream-100">Usage :</strong> Construction de phares et améliorations (Niveau II) pendant la partie.</li>
               <li><strong class="text-cream-100">Note :</strong> L'or est réinitialisé à chaque nouvelle partie.</li>
             </ul>
           </div>
 
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700">
-            <h3 class="text-xs font-bold text-cream-100 uppercase mb-2">💎 Cristaux d'Ys (Méta-Progression)</h3>
-            <ul class="list-disc list-inside text-xs text-marine-300 space-y-1 ml-1">
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase mb-2">💎 Cristaux d'Ys (Méta-Progression)</h3>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-1">
               <li><strong class="text-cream-100">Source :</strong> Gagnés en fin de vague victorieuse (1 à 3 selon la difficulté) ou sur les rares Galions d'Ys.</li>
               <li><strong class="text-cream-100">Usage :</strong> Déblocage définitif des technologies dans l'Atelier, nouvelles cartes de campagne, achat de messages en bouteille et élévation de la Tour d'Ys.</li>
             </ul>
           </div>
 
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700">
-            <h3 class="text-xs font-bold text-cream-100 uppercase mb-2">🍾 Bouteilles à la Mer (Découverte)</h3>
-            <ul class="list-disc list-inside text-xs text-marine-300 space-y-1 ml-1">
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase mb-2">🍾 Bouteilles à la Mer (Découverte)</h3>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-1">
               <li><strong class="text-cream-100">Source :</strong> Lâchées par les goélettes An Houl (La Recouvrance) lors de leur destruction.</li>
               <li><strong class="text-cream-100">Usage :</strong> Restauration des archives des 25 phares réels du Finistère.</li>
             </ul>
@@ -179,48 +192,48 @@
       </section>
 
       <!-- 3 -->
-      <section id="s3" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s3" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           3. Guide de l'Arsenal (Les Tours)
         </h2>
 
-        <p class="text-xs text-marine-300 text-justify">
+        <p class="text-sm md:text-base text-marine-200 leading-relaxed text-justify">
           Chaque défense possède un rôle spécifique. Un bon Gardien mélange les types pour créer des "zones de mort".
         </p>
 
         <div class="overflow-x-auto rounded border border-marine-700">
-          <table class="w-full text-xs">
+          <table class="w-full text-sm md:text-base">
             <thead class="bg-marine-950/60">
-              <tr class="text-marine-400 terminal-font uppercase tracking-widest text-[10px]">
+              <tr class="text-marine-400 terminal-font uppercase tracking-widest text-[11px]">
                 <th class="p-3 text-left border-b border-marine-700">Nom</th>
                 <th class="p-3 text-left border-b border-marine-700">Type</th>
                 <th class="p-3 text-left border-b border-marine-700">Emplacement</th>
                 <th class="p-3 text-left border-b border-marine-700">Rôle Stratégique</th>
               </tr>
             </thead>
-            <tbody class="bg-marine-900/30">
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Phare de Garde</td><td class="p-3 text-marine-300">DPS</td><td class="p-3 text-marine-300">Terre</td><td class="p-3 text-marine-300">Polyvalent, rapide, peu coûteux. La base de toute ligne.</td></tr>
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Bouée Courant</td><td class="p-3 text-marine-300">Support</td><td class="p-3 text-marine-300">Eau</td><td class="p-3 text-marine-300">Ne fait pas de dégâts. Ralentit les ennemis pour laisser le temps aux autres de tirer.</td></tr>
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Canon Côtier</td><td class="p-3 text-marine-300">AOE</td><td class="p-3 text-marine-300">Terre</td><td class="p-3 text-marine-300">Dégâts de zone. Indispensable contre les groupes de pirates.</td></tr>
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Lentille Fresnel</td><td class="p-3 text-marine-300">Sniper</td><td class="p-3 text-marine-300">Terre</td><td class="p-3 text-marine-300">Très longue portée. Cible les ennemis les plus forts (Galions, Cuirassés).</td></tr>
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Phare Tempête</td><td class="p-3 text-marine-300">Burst</td><td class="p-3 text-marine-300">Terre</td><td class="p-3 text-marine-300">Cadence extrême. Excellent contre les navires rapides et les débris d'Hydre.</td></tr>
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Cristal Ancien</td><td class="p-3 text-marine-300">AOE Massif</td><td class="p-3 text-marine-300">Terre</td><td class="p-3 text-marine-300">Accumule l'énergie pour une explosion géante. Très lent mais dévastateur.</td></tr>
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Base Sous-Marine</td><td class="p-3 text-marine-300">Logistique</td><td class="p-3 text-marine-300">Terre</td><td class="p-3 text-marine-300">Ne tire pas. Permet de déployer des Sous-marins dans sa zone.</td></tr>
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Sous-marin Nuc.</td><td class="p-3 text-marine-300">Global</td><td class="p-3 text-marine-300">Eau</td><td class="p-3 text-marine-300">Portée quasi-totale. Frappe fort n'importe où sur la carte.</td></tr>
-              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Œil de Neptune</td><td class="p-3 text-marine-300">Ultime</td><td class="p-3 text-marine-300">Terre</td><td class="p-3 text-marine-300">Dégâts colossaux + % de vie. Ajoute un bonus de vie au joueur.</td></tr>
-              <tr><td class="p-3 text-cream-100 font-bold">Couronne d'Ys</td><td class="p-3 text-marine-300">Légendaire</td><td class="p-3 text-marine-300">Terre</td><td class="p-3 text-marine-300">Libère une onde de choc à 360°. L'arme de défense de zone ultime.</td></tr>
+            <tbody class="bg-marine-900/30 text-marine-200">
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Phare de Garde</td><td class="p-3">DPS</td><td class="p-3">Terre</td><td class="p-3">Polyvalent, rapide, peu coûteux. La base de toute ligne.</td></tr>
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Bouée Courant</td><td class="p-3">Support</td><td class="p-3">Eau</td><td class="p-3">Ne fait pas de dégâts. Ralentit les ennemis pour laisser le temps aux autres de tirer.</td></tr>
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Canon Côtier</td><td class="p-3">AOE</td><td class="p-3">Terre</td><td class="p-3">Dégâts de zone. Indispensable contre les groupes de pirates.</td></tr>
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Lentille Fresnel</td><td class="p-3">Sniper</td><td class="p-3">Terre</td><td class="p-3">Très longue portée. Cible les ennemis les plus forts (Galions, Cuirassés).</td></tr>
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Phare Tempête</td><td class="p-3">Burst</td><td class="p-3">Terre</td><td class="p-3">Cadence extrême. Excellent contre les navires rapides et les débris d'Hydre.</td></tr>
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Cristal Ancien</td><td class="p-3">AOE Massif</td><td class="p-3">Terre</td><td class="p-3">Accumule l'énergie pour une explosion géante. Très lent mais dévastateur.</td></tr>
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Base Sous-Marine</td><td class="p-3">Logistique</td><td class="p-3">Terre</td><td class="p-3">Ne tire pas. Permet de déployer des Sous-marins dans sa zone.</td></tr>
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Sous-marin Nuc.</td><td class="p-3">Global</td><td class="p-3">Eau</td><td class="p-3">Portée quasi-totale. Frappe fort n'importe où sur la carte.</td></tr>
+              <tr class="border-b border-marine-800"><td class="p-3 text-cream-100 font-bold">Œil de Neptune</td><td class="p-3">Ultime</td><td class="p-3">Terre</td><td class="p-3">Dégâts colossaux + % de vie. Ajoute un bonus de vie au joueur.</td></tr>
+              <tr><td class="p-3 text-cream-100 font-bold">Couronne d'Ys</td><td class="p-3">Légendaire</td><td class="p-3">Terre</td><td class="p-3">Libère une onde de choc à 360°. L'arme de défense de zone ultime.</td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
       <!-- 4 -->
-      <section id="s4" class="space-y-3">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s4" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           4. Analyse de la Menace (Les Ennemis)
         </h2>
 
-        <ul class="list-disc list-inside text-xs text-marine-400 space-y-1 ml-2 font-mono">
+        <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-2 font-mono">
           <li><strong class="text-cream-100">Pirates :</strong> Rapides, peu de PV. Faciles à gérer avec des Phares de Garde.</li>
           <li><strong class="text-cream-100">Galions :</strong> Lents et robustes. Nécessitent des Canons ou des Snipers.</li>
           <li><strong class="text-cream-100">Navires Fantômes :</strong> Rapides et parfois difficiles à cibler.</li>
@@ -231,15 +244,15 @@
       </section>
 
       <!-- 5 -->
-      <section id="s5" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s5" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           5. Exploration des Écrans et Menus
         </h2>
 
         <div class="grid gap-4 md:grid-cols-2">
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2">
-            <h3 class="text-xs font-bold text-cream-100 uppercase mb-1">A. Le Menu Principal</h3>
-            <ul class="list-disc list-inside text-xs text-marine-300 space-y-1 ml-1">
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase mb-1">A. Le Menu Principal</h3>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-1">
               <li><strong class="text-cream-100">Difficulté :</strong> Normal, Difficile (moins d'or, ennemis plus forts) ou Impossible (réservé aux experts).</li>
               <li><strong class="text-cream-100">Atelier d'Ys :</strong> Dépensez vos Cristaux pour devenir plus fort de manière permanente.</li>
               <li><strong class="text-cream-100">Carte des Phares :</strong> Collection personnelle (histoire réelle des phares du Finistère).</li>
@@ -247,27 +260,27 @@
             </ul>
           </div>
 
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2">
-            <h3 class="text-xs font-bold text-cream-100 uppercase mb-1">B. L'Atelier d'Ys</h3>
-            <ul class="list-disc list-inside text-xs text-marine-300 space-y-1 ml-1">
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase mb-1">B. L'Atelier d'Ys (Cœur de la progression)</h3>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-1">
               <li><strong class="text-cream-100">Débloquer des technologies :</strong> Obligatoire pour améliorer une tour au Niveau II en jeu.</li>
               <li><strong class="text-cream-100">Acheter des Cartes :</strong> Accès à de nouveaux secteurs (ex : Archipel des Glénan).</li>
               <li><strong class="text-cream-100">La Tour d'Ys :</strong> Tous les 5 niveaux construits, +1% de dégâts permanents sur toutes vos armes (Endgame).</li>
             </ul>
           </div>
 
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2">
-            <h3 class="text-xs font-bold text-cream-100 uppercase mb-1">C. L'Écran de Jeu (HUD)</h3>
-            <ul class="list-disc list-inside text-xs text-marine-300 space-y-1 ml-1">
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase mb-1">C. L'Écran de Jeu (HUD)</h3>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-1">
               <li><strong class="text-cream-100">Bouton Infini (Infinity) :</strong> Lance automatiquement la vague suivante après un court délai.</li>
               <li><strong class="text-cream-100">Menu de Construction :</strong> Maintenez une icône et glissez-la sur la carte (ombre rouge/verte).</li>
               <li><strong class="text-cream-100">Détails de Tour :</strong> Cliquez sur une tour pour stats, vente, amélioration.</li>
             </ul>
           </div>
 
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2">
-            <h3 class="text-xs font-bold text-cream-100 uppercase mb-1">D. Carte des Phares (Contemplative)</h3>
-            <p class="text-xs text-marine-300 text-justify">
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase mb-1">D. Carte des Phares (Contemplative)</h3>
+            <p class="text-sm md:text-base text-marine-200 leading-relaxed text-justify">
               Naviguez sur une carte radar du Finistère. Cliquez sur les signaux débloqués pour lire leur fiche technique (hauteur, portée, année de construction) et leur histoire.
             </p>
           </div>
@@ -275,46 +288,50 @@
       </section>
 
       <!-- 6 -->
-      <section id="s6" class="space-y-3">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s6" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           6. Conseils Stratégiques pour les Nouveaux Gardiens
         </h2>
-        <ul class="list-disc list-inside text-xs text-marine-400 space-y-1 ml-2 font-mono">
-          <li><strong class="text-cream-100">Combo Ralentissement :</strong> Placez toujours une Bouée Courant juste avant une zone dense en tours.</li>
-          <li><strong class="text-cream-100">Gestion de l'Espace :</strong> Placez vos Bases Sous-marines en retrait, ne bloquez pas des emplacements de tir cruciaux.</li>
-          <li><strong class="text-cream-100">Priorité aux Boss :</strong> Les Lentilles Fresnel ciblent l'ennemi avec le plus de PV : meilleur outil contre Cuirassés.</li>
-          <li><strong class="text-cream-100">Investissement Cristal :</strong> Débloquez d'abord Niveau II (Phares de Garde + Canons) avant d’acheter trop de bouteilles.</li>
-          <li><strong class="text-cream-100">Tour d'Ys :</strong> Le +1% tous les 5 niveaux devient décisif à haut niveau.</li>
+        <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-2 font-mono">
+          <li><strong class="text-cream-100">Combo Ralentissement :</strong> Placez toujours une Bouée Courant juste avant une zone dense en tours. Un ennemi ralenti est un ennemi mort.</li>
+          <li><strong class="text-cream-100">Gestion de l'Espace :</strong> Les îles sont petites. Placez vos bases sous-marines en retrait.</li>
+          <li><strong class="text-cream-100">Priorité aux Boss :</strong> Les Snipers (Lentilles Fresnel) ciblent automatiquement l'ennemi avec le plus de PV.</li>
+          <li><strong class="text-cream-100">Investissement Cristal :</strong> Débloquez d'abord le Niveau II des Phares de Garde et des Canons.</li>
+          <li><strong class="text-cream-100">Bonus Tour d'Ys :</strong> Le +1% tous les 5 niveaux devient déterminant face aux boss.</li>
         </ul>
 
-        <div class="mt-3 bg-marine-900/50 p-4 rounded border border-marine-700">
-          <p class="text-xs text-marine-300 text-justify">
+        <div class="mt-1 bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+          <p class="text-sm md:text-base text-marine-200 text-justify">
             Ce rapport est mis à jour selon la version 2.0.3 du protocole de garde. Bonne chance, Gardien.
           </p>
         </div>
       </section>
 
       <!-- 7 -->
-      <section id="s7" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
-          7. Système de Partage : Bac à Sable et QR Codes
+      <section id="s7" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+          7. Le Système de Partage : Bac à Sable et QR Codes
         </h2>
 
+        <p class="text-sm md:text-base text-marine-200 text-justify">
+          Le mode Bac à Sable n'est pas seulement un outil de création, c'est une plateforme d'échange communautaire unique qui ne nécessite aucun serveur.
+        </p>
+
         <div class="grid gap-4 md:grid-cols-2">
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2">
-            <h3 class="text-xs font-bold text-cream-100 uppercase">L'Éditeur de Cartes</h3>
-            <ul class="list-disc list-inside text-xs text-marine-300 space-y-1 ml-1">
-              <li><strong class="text-cream-100">Outils :</strong> pinceaux (route rouge) + formes (côtes/îles jaunes).</li>
-              <li><strong class="text-cream-100">Validation :</strong> route max +30% et absence de collisions terre/navires.</li>
-              <li><strong class="text-cream-100">Sauvegarde Locale :</strong> stockage dans la Bibliothèque de Cartes.</li>
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase">L'Éditeur de Cartes</h3>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-1">
+              <li><strong class="text-cream-100">Outils :</strong> pinceaux (route maritime en rouge) et formes (côtes/îles en jaune).</li>
+              <li><strong class="text-cream-100">Validation :</strong> route max +30% et pas de collisions terre/navires.</li>
+              <li><strong class="text-cream-100">Sauvegarde Locale :</strong> bibliothèque de cartes locale.</li>
             </ul>
           </div>
 
-          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2">
-            <h3 class="text-xs font-bold text-cream-100 uppercase">Partage par QR Code</h3>
-            <ul class="list-disc list-inside text-xs text-marine-300 space-y-1 ml-1">
-              <li>QR Code unique contenant les données compressées.</li>
-              <li><strong class="text-cream-100">Importer :</strong> scanner l’écran d’un ami ou une capture d’écran.</li>
+          <div class="bg-marine-900/50 p-4 rounded border border-marine-700 space-y-2 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <h3 class="text-sm font-bold text-cream-100 uppercase">Partage par QR Code</h3>
+            <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-1">
+              <li>QR Code unique contenant toutes les données compressées.</li>
+              <li><strong class="text-cream-100">Importer :</strong> scanner l'écran d'un ami ou une capture d'écran.</li>
               <li><strong class="text-cream-100">Sécurité :</strong> aucune donnée envoyée sur internet ; échange direct et privé.</li>
             </ul>
           </div>
@@ -322,149 +339,202 @@
       </section>
 
       <!-- 8 -->
-      <section id="s8" class="space-y-3">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s8" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           8. Progression de Fin de Jeu : La Tour d'Ys
         </h2>
-        <ul class="list-disc list-inside text-xs text-marine-400 space-y-1 ml-2 font-mono">
-          <li><strong class="text-cream-100">Concept :</strong> structure monumentale infinie, fragment par fragment.</li>
+        <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-2 font-mono">
+          <li><strong class="text-cream-100">Concept :</strong> structure monumentale infinie que vous élevez fragment par fragment.</li>
           <li><strong class="text-cream-100">Investissement :</strong> chaque niveau coûte 10 Cristaux.</li>
           <li><strong class="text-cream-100">Résonance :</strong> tous les 5 niveaux, bonus permanent de +1% de dégâts.</li>
-          <li><strong class="text-cream-100">Exemple :</strong> niveau 100 = +20% de puissance sur toutes les défenses (dans toutes les parties futures).</li>
-          <li><strong class="text-cream-100">Classement :</strong> comparé via Google Play Games.</li>
+          <li><strong class="text-cream-100">Exemple :</strong> une tour de niveau 100 augmente la puissance de TOUTES vos défenses de 20% dans toutes les parties futures.</li>
+          <li><strong class="text-cream-100">Classement :</strong> comparé à celui des autres Gardiens via Google Play Games.</li>
         </ul>
       </section>
 
       <!-- 9 -->
-      <section id="s9" class="space-y-3">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s9" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           9. Guide de Survie Avancé (Vagues 50+)
         </h2>
-        <ul class="list-disc list-inside text-xs text-marine-400 space-y-1 ml-2 font-mono">
-          <li><strong class="text-cream-100">Gestion des Hydres :</strong> "Le Hollandais Volant" (vague 66) se sépare en débris ultra-rapides à sa destruction. Conseil : évitez la destruction juste avant la sortie.</li>
-          <li><strong class="text-cream-100">Wolf Pack :</strong> maximisez les Bases Sous-marines ; placez les sous-marins pour couvrir les zones mortes.</li>
-          <li><strong class="text-cream-100">Œil de Neptune :</strong> retire 5% de la vie MAX de la cible à chaque coup, redoutable sur les boss.</li>
+        <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-2 font-mono">
+          <li><strong class="text-cream-100">Gestion des Hydres :</strong> "Le Hollandais Volant" (vague 66) se sépare en débris ultra-rapides à sa destruction. Conseil : ne le détruisez pas juste avant la sortie.</li>
+          <li><strong class="text-cream-100">Wolf Pack :</strong> maximisez les Bases Sous-marines ; en plaçant intelligemment, vous pouvez couvrir 100% de la route.</li>
+          <li><strong class="text-cream-100">Œil de Neptune :</strong> retire 5% de la vie MAX de la cible à chaque coup, extrêmement efficace sur les boss.</li>
         </ul>
       </section>
 
       <!-- 10 -->
-      <section id="s10" class="space-y-3">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s10" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           10. Présentation de l'Interface de Configuration
         </h2>
-        <ul class="list-disc list-inside text-xs text-marine-400 space-y-1 ml-2 font-mono">
-          <li><strong class="text-cream-100">Mode Smartphone (Touch Offset) :</strong> augmentez l’offset si le doigt cache la pose.</li>
+        <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-2 font-mono">
+          <li><strong class="text-cream-100">Mode Smartphone (Touch Offset) :</strong> augmentez le décalage si le doigt cache la pose.</li>
           <li><strong class="text-cream-100">Mixage Audio :</strong> baissez la musique pour mieux entendre sonar/ondes.</li>
-          <li><strong class="text-cream-100">Marge de Sécurité :</strong> pour encoches (notchs) et bords arrondis.</li>
+          <li><strong class="text-cream-100">Marge de Sécurité :</strong> utile pour notchs et bords arrondis.</li>
         </ul>
       </section>
 
       <!-- 11 -->
-      <section id="s11" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s11" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           11. FAQ et Dépannage rapide
         </h2>
 
         <div class="space-y-3">
-          <details class="bg-marine-900/50 p-4 rounded border border-marine-700">
-            <summary class="cursor-pointer text-xs font-bold text-cream-100 uppercase">Pourquoi mon bouton "Améliorer" est-il grisé ?</summary>
-            <p class="text-xs text-marine-300 mt-2 text-justify">
+          <details class="bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <summary class="cursor-pointer text-sm md:text-base font-bold text-cream-100 uppercase">Pourquoi mon bouton "Améliorer" est-il grisé ?</summary>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
               Vérifiez que vous avez assez d'Or ET que la technologie a été débloquée dans l'Atelier d'Ys.
             </p>
           </details>
 
-          <details class="bg-marine-900/50 p-4 rounded border border-marine-700">
-            <summary class="cursor-pointer text-xs font-bold text-cream-100 uppercase">Comment obtenir plus de cristaux rapidement ?</summary>
-            <p class="text-xs text-marine-300 mt-2 text-justify">
+          <details class="bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <summary class="cursor-pointer text-sm md:text-base font-bold text-cream-100 uppercase">Comment obtenir plus de cristaux rapidement ?</summary>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
               Jouez en difficulté Impossible. Chaque vague victorieuse rapporte 3 cristaux au lieu d'un seul en mode Normal.
             </p>
           </details>
 
-          <details class="bg-marine-900/50 p-4 rounded border border-marine-700">
-            <summary class="cursor-pointer text-xs font-bold text-cream-100 uppercase">Mes succès ne s'affichent pas dans Google Play ?</summary>
-            <p class="text-xs text-marine-300 mt-2 text-justify">
+          <details class="bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <summary class="cursor-pointer text-sm md:text-base font-bold text-cream-100 uppercase">Mes succès ne s'affichent pas dans Google Play ?</summary>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
               Vérifiez votre connexion dans l'écran "Services de Jeux". Assurez-vous que votre profil est en mode "Public" pour apparaître dans les classements de la Tour d'Ys.
             </p>
           </details>
 
-          <details class="bg-marine-900/50 p-4 rounded border border-marine-700">
-            <summary class="cursor-pointer text-xs font-bold text-cream-100 uppercase">Une bouteille a disparu de la carte !</summary>
-            <p class="text-xs text-marine-300 mt-2 text-justify">
+          <details class="bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+            <summary class="cursor-pointer text-sm md:text-base font-bold text-cream-100 uppercase">Une bouteille a disparu de la carte !</summary>
+            <p class="text-sm md:text-base text-marine-200 mt-2 text-justify">
               Les bouteilles ont une durée de vie limitée (~20 secondes). Vous devez cliquer dessus rapidement pour les collecter.
             </p>
           </details>
         </div>
 
-        <div class="mt-3 bg-marine-900/50 p-4 rounded border border-marine-700">
-          <p class="text-xs text-marine-300 text-justify">
-            Conclusion du Rapport : Le métier de Gardien est exigeant, solitaire, mais noble. Que la Lumière vous guide, Gardien. Fin du rapport officiel 2.0.3
+        <div class="mt-3 bg-marine-900/50 p-4 rounded border border-marine-700 transition-colors hover:border-marine-600 hover:bg-marine-900/60">
+          <p class="text-sm md:text-base text-marine-200 text-justify">
+            Conclusion du Rapport : Le métier de Gardien est exigeant, solitaire, mais noble. En suivant ces directives, vous maximiserez vos chances de survie. Que la Lumière vous guide, Gardien. Fin du rapport officiel 2.0.3
           </p>
         </div>
       </section>
 
       <!-- 12 -->
-      <section id="s12" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s12" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           12. Les Services de Jeux (Google Play Games)
         </h2>
-        <ul class="list-disc list-inside text-xs text-marine-400 space-y-1 ml-2 font-mono">
-          <li><strong class="text-cream-100">Synchronisation Cloud :</strong> cristaux, phares, atelier liés au compte Google Play.</li>
-          <li><strong class="text-cream-100">Succès :</strong> 13 trophées, du plus simple au plus exigeant.</li>
-          <li><strong class="text-cream-100">Prestige :</strong> les succès augmentent le niveau global Google Play.</li>
+        <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-2 font-mono">
+          <li><strong class="text-cream-100">Synchronisation Cloud :</strong> vos cristaux, vos phares débloqués et votre progression dans l'Atelier sont liés à votre compte Google Play.</li>
+          <li><strong class="text-cream-100">Succès :</strong> 13 trophées (du plus simple au plus exigeant).</li>
+          <li><strong class="text-cream-100">Prestige :</strong> en complétant les succès, vous augmentez votre niveau Google Play.</li>
         </ul>
       </section>
 
       <!-- 13 -->
-      <section id="s13" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s13" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           13. Protocoles de Sécurité et Mentions Légales
         </h2>
-        <ul class="list-disc list-inside text-xs text-marine-400 space-y-1 ml-2 font-mono">
-          <li><strong class="text-cream-100">Avertissement Épilepsie :</strong> effets de lumière pulsée et ondes rapides ; faites une pause si fatigue visuelle.</li>
-          <li><strong class="text-cream-100">Vie Privée :</strong> aucune donnée personnelle collectée par le studio ; sauvegardes locales ou serveurs Google.</li>
-          <li><strong class="text-cream-100">Données Réelles :</strong> fiches basées sur relevés historiques ; ne pas utiliser pour la navigation réelle.</li>
+        <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-2 font-mono">
+          <li><strong class="text-cream-100">Avertissement Épilepsie :</strong> effets de lumière pulsée et ondes de choc rapides. Faites une pause si fatigue visuelle.</li>
+          <li><strong class="text-cream-100">Vie Privée :</strong> aucune donnée personnelle collectée par le studio ; sauvegardes locales ou sur serveurs Google.</li>
+          <li><strong class="text-cream-100">Données Réelles :</strong> informations basées sur relevés historiques ; ne pas utiliser pour naviguer en mer.</li>
         </ul>
       </section>
 
       <!-- 14 -->
-      <section id="s14" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s14" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           14. L'Expérience Sonore et Visuelle
         </h2>
-        <ul class="list-disc list-inside text-xs text-marine-400 space-y-1 ml-2 font-mono">
-          <li><strong class="text-cream-100">Usage du Casque :</strong> le sonar, le vent, la mer et les mécanismes aident à anticiper l'action.</li>
-          <li><strong class="text-cream-100">Esthétique Géométrique :</strong> flat design pour lecture instantanée même en surcharge d’ennemis.</li>
+        <ul class="list-disc list-inside text-sm md:text-base text-marine-200 space-y-1 ml-2 font-mono">
+          <li><strong class="text-cream-100">Casque :</strong> entendre le sonar ou le crépitement aide à anticiper l'action.</li>
+          <li><strong class="text-cream-100">Flat Design :</strong> lecture instantanée même quand l’écran est saturé.</li>
           <li><strong class="text-cream-100">Code couleur :</strong> Rouge = Danger, Cyan = Ys/Mystique, Jaune = Or/Terre.</li>
         </ul>
       </section>
 
       <!-- 15 -->
-      <section id="s15" class="space-y-4">
-        <h2 class="terminal-font text-xs font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
+      <section id="s15" class="space-y-4 pop-in">
+        <h2 class="terminal-font text-sm md:text-base font-bold uppercase tracking-widest text-marine-400 border-b border-marine-700 pb-2">
           15. Conclusion de la Garde
         </h2>
-        <p class="text-xs text-marine-300 text-justify">
+        <p class="text-sm md:text-base text-marine-200 leading-relaxed text-justify">
           Vous avez désormais toutes les clés en main. Vous connaissez votre arsenal, vous identifiez vos ennemis et vous savez comment faire progresser votre héritage à travers l'Atelier et la Tour d'Ys.
         </p>
-        <p class="text-xs text-marine-300 text-justify">
+        <p class="text-sm md:text-base text-marine-200 leading-relaxed text-justify">
           Le destin des côtes du Finistère repose sur votre réactivité et votre sens de la stratégie. Ne laissez pas la brume l'emporter sur la lumière.
         </p>
       </section>
 
-      <section class="mt-8 pt-6 border-t border-marine-600 flex flex-col items-center">
-        <span class="terminal-font text-[10px] uppercase font-bold text-marine-500 tracking-wider mb-2">Canal de communication</span>
-        <a href="mailto:pierzenstudio@gmail.com" class="text-xl font-bold text-cream-50 hover:text-lighthouse-red transition-colors tracking-tight font-mono">
+      <section class="mt-8 pt-6 border-t border-marine-600 flex flex-col items-center pop-in">
+        <span class="terminal-font text-[11px] md:text-xs uppercase font-bold text-marine-500 tracking-wider mb-2">Canal de communication</span>
+        <a href="mailto:pierzenstudio@gmail.com" class="text-xl md:text-2xl font-bold text-cream-50 hover:text-lighthouse-red transition-colors tracking-tight font-mono">
           [pierzenstudio@gmail.com](mailto:pierzenstudio@gmail.com)
         </a>
       </section>
 
+      <!-- Petit bouton discret "retour haut" (vivant + utile) -->
+      <div class="flex justify-center pt-2 pop-in">
+        <a href="#toc" class="terminal-font text-[11px] md:text-xs uppercase font-bold tracking-wider px-4 py-2 rounded border border-marine-700 bg-marine-950/30 text-marine-300 hover:text-cream-50 hover:border-marine-600 hover:bg-marine-950/50 transition-colors">
+          ↑ Retour au sommaire
+        </a>
+      </div>
+
     </div>
 
     <footer class="p-4 bg-marine-950 border-t border-marine-800 text-center relative z-20">
-      <p class="terminal-font text-[9px] uppercase tracking-[0.2em] text-marine-600 font-bold">
+      <p class="terminal-font text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-marine-600 font-bold">
         PierZen Studio &copy; 2026 // Finistère
       </p>
     </footer>
   </main>
+
+  <script>
+    // Sommaire vivant: surbrillance du bouton correspondant à la section visible
+    const toc = document.getElementById('toc');
+    const links = Array.from(document.querySelectorAll('#toc a[href^="#"]'));
+    const sections = links
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const activeAdd = ['text-cream-50','border-marine-600','bg-marine-950/60'];
+    const activeRemove = ['text-marine-300','border-marine-700','bg-marine-950/30'];
+
+    function setActive(link) {
+      links.forEach(a => {
+        activeAdd.forEach(c => a.classList.remove(c));
+        activeRemove.forEach(c => a.classList.add(c));
+      });
+      activeAdd.forEach(c => link.classList.add(c));
+      activeRemove.forEach(c => link.classList.remove(c));
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a,b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
+      if (!visible) return;
+      const id = '#' + visible.target.id;
+      const link = links.find(a => a.getAttribute('href') === id);
+      if (link) setActive(link);
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: [0.1,0.2,0.3,0.4,0.5,0.6] });
+
+    sections.forEach(s => io.observe(s));
+
+    // État initial
+    if (links[0]) setActive(links[0]);
+
+    // Petit effet "clic" sur sommaire (feedback)
+    if (toc) {
+      toc.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (!a) return;
+        a.classList.add('border-lighthouse-red');
+        setTimeout(() => a.classList.remove('border-lighthouse-red'), 180);
+      });
+    }
+  </script>
 </body>
 </html>
